@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstring>
 #include <vector>
 
 #include "../include/anomaly_detection.hpp"
