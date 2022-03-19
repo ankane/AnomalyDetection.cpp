@@ -8,7 +8,7 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 
 ## Installation
 
-Add [the headers](https://raw.githubusercontent.com/ankane/AnomalyDetection.cpp/v0.1.0/include) to your project and use
+Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.0/include) to your project and use
 
 ```cpp
 #include "anomaly_detection.hpp"
