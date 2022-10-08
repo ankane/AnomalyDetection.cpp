@@ -1,3 +1,7 @@
+## 0.1.2 (unreleased)
+
+- Fixed warnings
+
 ## 0.1.1 (2022-03-20)
 
 - Removed need for `_USE_MATH_DEFINES`

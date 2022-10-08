@@ -39,7 +39,7 @@ float mad(const std::vector<float>& data, float med) {
     return 1.4826 * median_sorted(res);
 }
 
-std::vector<size_t> detect_anoms(const std::vector<float>& data, int num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
+std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
     auto n = data.size();
 
     // Check to make sure we have at least two periods worth of data for anomaly context
@@ -60,7 +60,7 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, int num_obs_per
     std::vector<float> data2;
     data2.reserve(n);
     auto med = median(data);
-    for (auto i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         data2.push_back(data[i] - seasonal[i] - med);
     }
 
