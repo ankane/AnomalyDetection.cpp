@@ -1,4 +1,4 @@
-## 0.1.3 (unreleased)
+## 0.1.3 (2023-01-31)
 
 - Fixed result when `period` is less than 2
 
