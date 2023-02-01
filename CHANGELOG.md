@@ -1,3 +1,7 @@
+## 0.1.3 (unreleased)
+
+- Fixed result when `period` is less than 2
+
 ## 0.1.2 (2023-01-29)
 
 - Fixed warnings

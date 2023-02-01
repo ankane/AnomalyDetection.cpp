@@ -31,6 +31,13 @@ void test_works() {
     assert(res.anomalies == expected);
 }
 
+void test_no_seasonality() {
+    std::vector<float> series = {1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
+    std::vector<size_t> expected = {1};
+    auto res = anomaly_detection::params().max_anoms(0.2).fit(series, 1);
+    assert(res.anomalies == expected);
+}
+
 void test_direction_pos() {
     auto series = generate_series();
     auto res = anomaly_detection::params()
@@ -93,6 +100,7 @@ void test_callback() {
 
 int main() {
     test_works();
+    test_no_seasonality();
     test_direction_pos();
     test_direction_neg();
     test_alpha();

@@ -53,15 +53,22 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
         throw std::invalid_argument("series contains NANs");
     }
 
-    // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
-    auto data_decomp = stl::params().robust(true).seasonal_length(data.size() * 10 + 1).fit(data, num_obs_per_period);
-    auto seasonal = data_decomp.seasonal;
-
     std::vector<float> data2;
     data2.reserve(n);
     auto med = median(data);
-    for (size_t i = 0; i < n; i++) {
-        data2.push_back(data[i] - seasonal[i] - med);
+
+    if (num_obs_per_period > 1) {
+        // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
+        auto data_decomp = stl::params().robust(true).seasonal_length(data.size() * 10 + 1).fit(data, num_obs_per_period);
+        auto seasonal = data_decomp.seasonal;
+
+        for (size_t i = 0; i < n; i++) {
+            data2.push_back(data[i] - seasonal[i] - med);
+        }
+    } else {
+        for (size_t i = 0; i < n; i++) {
+            data2.push_back(data[i] - med);
+        }
     }
 
     auto num_anoms = 0;
