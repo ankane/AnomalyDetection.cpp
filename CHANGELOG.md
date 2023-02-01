@@ -1,6 +1,6 @@
 ## 0.1.3 (2023-01-31)
 
-- Fixed result when `period` is less than 2
+- Fixed result when no seasonality (period is less than 2)
 
 ## 0.1.2 (2023-01-29)
 
