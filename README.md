@@ -8,13 +8,15 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 
 ## Installation
 
-Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.3/include) to your project and use
+Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.3/include) to your project (supports C++17 and greater).
+
+## Getting Started
+
+Include the header
 
 ```cpp
 #include "anomaly_detection.hpp"
 ```
-
-## Getting Started
 
 Detect anomalies in a time series
 

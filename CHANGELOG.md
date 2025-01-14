@@ -1,3 +1,7 @@
+## 0.1.4 (unreleased)
+
+- Added experimental support for CMake
+
 ## 0.1.3 (2023-01-31)
 
 - Fixed result when no seasonality (period is less than 2)
