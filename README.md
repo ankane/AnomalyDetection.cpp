@@ -8,14 +8,14 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 
 ## Installation
 
-Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.3/include) to your project (supports C++17 and greater).
+Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.4/include) to your project (supports C++17 and greater).
 
 There is also support for CMake and FetchContent:
 
 ```cmake
 include(FetchContent)
 
-FetchContent_Declare(anomaly_detection GIT_REPOSITORY https://github.com/ankane/AnomalyDetection.cpp.git GIT_TAG ebc899094249558ee594247ae5fc6f7c468c70eb)
+FetchContent_Declare(anomaly_detection GIT_REPOSITORY https://github.com/ankane/AnomalyDetection.cpp.git GIT_TAG v0.1.4)
 FetchContent_MakeAvailable(anomaly_detection)
 
 target_link_libraries(app PRIVATE anomaly_detection::anomaly_detection)
