@@ -10,7 +10,7 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 
 Add [the headers](https://github.com/ankane/AnomalyDetection.cpp/tree/v0.1.3/include) to your project (supports C++17 and greater).
 
-There is also experimental support for CMake and FetchContent:
+There is also support for CMake and FetchContent:
 
 ```cmake
 include(FetchContent)
