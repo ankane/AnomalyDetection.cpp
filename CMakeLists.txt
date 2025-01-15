@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(dist stl)
 add_library(anomaly_detection INTERFACE)
 add_library(anomaly_detection::anomaly_detection ALIAS anomaly_detection)
 
-target_link_libraries(anomaly_detection PRIVATE dist::dist stl::stl)
+target_link_libraries(anomaly_detection INTERFACE dist::dist stl::stl)
 
 target_compile_features(anomaly_detection INTERFACE cxx_std_17)
 
