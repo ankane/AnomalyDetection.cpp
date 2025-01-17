@@ -17,7 +17,15 @@
 
 namespace anomaly_detection {
 
-enum Direction { Positive, Negative, Both };
+/// The direction to detect anomalies.
+enum Direction {
+    /// Positive direction.
+    Positive,
+    /// Negative direction.
+    Negative,
+    /// Both directions.
+    Both
+};
 
 namespace {
 
@@ -157,11 +165,14 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
 
 }
 
+/// An anomaly detection result.
 class AnomalyDetectionResult {
 public:
+    /// Returns the anomalies.
     std::vector<size_t> anomalies;
 };
 
+/// A set of anomaly detection parameters.
 class AnomalyDetectionParams {
     float alpha_ = 0.05;
     float max_anoms_ = 0.1;
@@ -170,34 +181,41 @@ class AnomalyDetectionParams {
     std::function<void()> callback_ = nullptr;
 
 public:
+    /// Sets the level of statistical significance.
     inline AnomalyDetectionParams alpha(float alpha) {
         this->alpha_ = alpha;
         return *this;
     };
 
+    /// Sets the maximum number of anomalies as percent of data.
     inline AnomalyDetectionParams max_anoms(float max_anoms) {
         this->max_anoms_ = max_anoms;
         return *this;
     };
 
+    /// Sets the direction.
     inline AnomalyDetectionParams direction(Direction direction) {
         this->direction_ = direction;
         return *this;
     };
 
+    /// Sets whether to show progress.
     inline AnomalyDetectionParams verbose(bool verbose) {
         this->verbose_ = verbose;
         return *this;
     };
 
+    /// Sets a callback for each iteration.
     inline AnomalyDetectionParams callback(std::function<void()> callback) {
         this->callback_ = callback;
         return *this;
     };
 
+    /// Detects anomalies in a time series.
     AnomalyDetectionResult fit(const std::vector<float>& series, size_t period);
 };
 
+/// Creates a new set of parameters.
 AnomalyDetectionParams params() {
     return AnomalyDetectionParams();
 }
