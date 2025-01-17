@@ -19,6 +19,8 @@ namespace anomaly_detection {
 
 enum Direction { Positive, Negative, Both };
 
+namespace {
+
 float median_sorted(const std::vector<float>& sorted) {
     return (sorted[(sorted.size() - 1) / 2] + sorted[sorted.size() / 2]) / 2.0;
 }
@@ -151,6 +153,8 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
     std::sort(anomalies.begin(), anomalies.end());
 
     return anomalies;
+}
+
 }
 
 class AnomalyDetectionResult {
