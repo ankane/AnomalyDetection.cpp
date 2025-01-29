@@ -18,7 +18,7 @@
 namespace anomaly_detection {
 
 /// The direction to detect anomalies.
-enum Direction {
+enum class Direction {
     /// Positive direction.
     Positive,
     /// Negative direction.
