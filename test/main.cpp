@@ -2,7 +2,7 @@
 #include <cstring>
 #include <vector>
 
-#include "../include/anomaly_detection.hpp"
+#include "anomaly_detection.hpp"
 
 using anomaly_detection::Direction;
 
