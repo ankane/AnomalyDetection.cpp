@@ -23,7 +23,9 @@ install(
 if(PROJECT_IS_TOP_LEVEL)
     add_executable(test test/main.cpp)
     target_link_libraries(test PRIVATE anomaly_detection::anomaly_detection)
-    target_compile_options(test PRIVATE -Wall -Wextra -Werror)
+    if(NOT MSVC)
+        target_compile_options(test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
 
     add_executable(example example/main.cpp)
     target_link_libraries(example PRIVATE anomaly_detection::anomaly_detection)
