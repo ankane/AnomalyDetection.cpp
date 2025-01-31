@@ -212,7 +212,7 @@ public:
     };
 
     /// Detects anomalies in a time series.
-    AnomalyDetectionResult fit(const std::vector<float>& series, size_t period);
+    AnomalyDetectionResult fit(const std::vector<float>& series, size_t period) const;
 };
 
 /// Creates a new set of parameters.
@@ -220,7 +220,7 @@ AnomalyDetectionParams params() {
     return AnomalyDetectionParams();
 }
 
-AnomalyDetectionResult AnomalyDetectionParams::fit(const std::vector<float>& series, size_t period) {
+AnomalyDetectionResult AnomalyDetectionParams::fit(const std::vector<float>& series, size_t period) const {
     bool one_tail = this->direction_ != Direction::Both;
     bool upper_tail = this->direction_ == Direction::Positive;
 
