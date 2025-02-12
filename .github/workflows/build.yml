@@ -10,24 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: g++ -std=c++17 -Wall -Wextra -Werror -o test/main test/main.cpp
-      - run: test/main
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON
+      - run: cmake --build build
 
-      - run: g++ -std=c++17 -Wall -Wextra -Werror -Iinclude -o example/main example/main.cpp
-      - run: example/main
+      - if: ${{ startsWith(matrix.os, 'windows') }}
+        run: cp build/Debug/test.exe build && cp build/Debug/example.exe build
+
+      - run: build/test
+      - run: build/example
 
       - if: ${{ startsWith(matrix.os, 'ubuntu') }}
         run: |
           sudo apt-get update
           sudo apt-get install valgrind
-          valgrind --leak-check=yes test/main
+          valgrind --leak-check=yes build/test
 
       - if: ${{ startsWith(matrix.os, 'macos') }}
-        run: /opt/homebrew/opt/llvm@18/bin/scan-build --status-bugs g++ -std=c++17 -o test/main test/main.cpp
+        run: /opt/homebrew/opt/llvm@18/bin/scan-build --status-bugs cmake --build build
 
-      - if: ${{ startsWith(matrix.os, 'windows') }}
-        run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cl /W3 /EHsc /std:c++17 test/main.cpp /link /out:test/main-msvc.exe
-          call "test/main-msvc.exe"
-        shell: cmd
+      - run: cmake --install build --prefix /tmp
+      - run: g++ -std=c++17 -I/tmp/include example/main.cpp

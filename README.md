@@ -86,6 +86,7 @@ To get started with development:
 ```sh
 git clone https://github.com/ankane/AnomalyDetection.cpp.git
 cd AnomalyDetection.cpp
-g++ -std=c++17 -Wall -Wextra -Werror -o test/main test/main.cpp
-test/main
+cmake -S . -B build
+cmake --build build
+build/test
 ```
