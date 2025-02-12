@@ -58,7 +58,9 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
     }
 
     // Handle NANs
-    auto nan = std::count_if(data.begin(), data.end(), [](const auto& value) { return std::isnan(value); });
+    auto nan = std::count_if(data.begin(), data.end(), [](const auto& value) {
+        return std::isnan(value);
+    });
     if (nan > 0) {
         throw std::invalid_argument("series contains NANs");
     }
@@ -90,7 +92,9 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
     // Use stable sort for indexes for deterministic results
     std::vector<size_t> indexes(n);
     std::iota(indexes.begin(), indexes.end(), 0);
-    std::stable_sort(indexes.begin(), indexes.end(), [&data2](size_t a, size_t b) { return data2[a] < data2[b]; });
+    std::stable_sort(indexes.begin(), indexes.end(), [&data2](size_t a, size_t b) {
+        return data2[a] < data2[b];
+    });
     std::sort(data2.begin(), data2.end());
 
     // Compute test statistic until r=max_outliers values have been removed from the sample
