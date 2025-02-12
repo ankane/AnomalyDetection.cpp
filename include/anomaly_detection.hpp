@@ -12,6 +12,10 @@
 #include <numeric>
 #include <vector>
 
+#if __cplusplus >= 202002L
+#include <span>
+#endif
+
 #include "dist.h"
 #include "stl.hpp"
 
@@ -33,8 +37,8 @@ float median_sorted(const std::vector<float>& sorted) {
     return (sorted[(sorted.size() - 1) / 2] + sorted[sorted.size() / 2]) / 2.0;
 }
 
-float median(const std::vector<float>& data) {
-    std::vector<float> sorted(data);
+float median(const float* data, size_t data_size) {
+    std::vector<float> sorted(data, data + data_size);
     std::sort(sorted.begin(), sorted.end());
     return median_sorted(sorted);
 }
@@ -49,8 +53,8 @@ float mad(const std::vector<float>& data, float med) {
     return 1.4826 * median_sorted(res);
 }
 
-std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
-    auto n = data.size();
+std::vector<size_t> detect_anoms(const float* data, size_t data_size, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
+    auto n = data_size;
 
     // Check to make sure we have at least two periods worth of data for anomaly context
     if (n < num_obs_per_period * 2) {
@@ -58,7 +62,7 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
     }
 
     // Handle NANs
-    auto nan = std::count_if(data.begin(), data.end(), [](const auto& value) {
+    auto nan = std::count_if(data, data + data_size, [](const auto& value) {
         return std::isnan(value);
     });
     if (nan > 0) {
@@ -67,11 +71,11 @@ std::vector<size_t> detect_anoms(const std::vector<float>& data, size_t num_obs_
 
     std::vector<float> data2;
     data2.reserve(n);
-    auto med = median(data);
+    auto med = median(data, data_size);
 
     if (num_obs_per_period > 1) {
         // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
-        auto data_decomp = stl::params().robust(true).seasonal_length(data.size() * 10 + 1).fit(data, num_obs_per_period);
+        auto data_decomp = stl::params().robust(true).seasonal_length(data_size * 10 + 1).fit(data, data_size, num_obs_per_period);
         auto seasonal = data_decomp.seasonal;
 
         for (size_t i = 0; i < n; i++) {
@@ -215,14 +219,26 @@ public:
         return *this;
     };
 
-    /// Detects anomalies in a time series.
-    inline AnomalyDetectionResult fit(const std::vector<float>& series, size_t period) const {
+    /// Detects anomalies in a time series from an array.
+    inline AnomalyDetectionResult fit(const float* series, size_t series_size, size_t period) const {
         bool one_tail = this->direction_ != Direction::Both;
         bool upper_tail = this->direction_ == Direction::Positive;
 
-        auto anomalies = detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
+        auto anomalies = detect_anoms(series, series_size, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
         return AnomalyDetectionResult { anomalies };
     }
+
+    /// Detects anomalies in a time series from a vector.
+    inline AnomalyDetectionResult fit(const std::vector<float>& series, size_t period) const {
+        return fit(series.data(), series.size(), period);
+    }
+
+#if __cplusplus >= 202002L
+    /// Detects anomalies in a time series from a span.
+    inline AnomalyDetectionResult fit(std::span<const float> series, size_t period) const {
+        return fit(series.data(), series.size(), period);
+    }
+#endif
 };
 
 /// Creates a new set of parameters.

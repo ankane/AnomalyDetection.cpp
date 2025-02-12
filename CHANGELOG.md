@@ -1,5 +1,6 @@
 ## 0.2.0 (unreleased)
 
+- Added support for `std::span`
 - Changed `Direction` to scoped enum
 - Fixed visibility of private functions
 

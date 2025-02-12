@@ -2,6 +2,10 @@
 #include <cstring>
 #include <vector>
 
+#if __cplusplus >= 202002L
+#include <span>
+#endif
+
 #include "anomaly_detection.hpp"
 
 using anomaly_detection::Direction;
@@ -30,6 +34,15 @@ void test_works() {
     auto res = anomaly_detection::params().max_anoms(0.2).fit(series, 7);
     assert(res.anomalies == expected);
 }
+
+#if __cplusplus >= 202002L
+void test_span() {
+    auto series = generate_series();
+    std::vector<size_t> expected = {9, 15, 26};
+    auto res = anomaly_detection::params().max_anoms(0.2).fit(std::span<const float>(series), 7);
+    assert(res.anomalies == expected);
+}
+#endif
 
 void test_no_seasonality() {
     std::vector<float> series = {1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
@@ -100,6 +113,9 @@ void test_callback() {
 
 int main() {
     test_works();
+#if __cplusplus >= 202002L
+    test_span();
+#endif
     test_no_seasonality();
     test_direction_pos();
     test_direction_neg();
