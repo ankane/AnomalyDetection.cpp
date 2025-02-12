@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON
+      - run: cmake -S . -B build
       - run: cmake --build build
 
       - if: ${{ startsWith(matrix.os, 'windows') }}
