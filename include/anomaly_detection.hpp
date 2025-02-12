@@ -212,21 +212,19 @@ public:
     };
 
     /// Detects anomalies in a time series.
-    AnomalyDetectionResult fit(const std::vector<float>& series, size_t period) const;
+    inline AnomalyDetectionResult fit(const std::vector<float>& series, size_t period) const {
+        bool one_tail = this->direction_ != Direction::Both;
+        bool upper_tail = this->direction_ == Direction::Positive;
+
+        auto res = AnomalyDetectionResult();
+        res.anomalies = detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
+        return res;
+    }
 };
 
 /// Creates a new set of parameters.
-AnomalyDetectionParams params() {
+inline AnomalyDetectionParams params() {
     return AnomalyDetectionParams();
-}
-
-AnomalyDetectionResult AnomalyDetectionParams::fit(const std::vector<float>& series, size_t period) const {
-    bool one_tail = this->direction_ != Direction::Both;
-    bool upper_tail = this->direction_ == Direction::Positive;
-
-    auto res = AnomalyDetectionResult();
-    res.anomalies = detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
-    return res;
 }
 
 }
