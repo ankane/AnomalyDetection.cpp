@@ -216,9 +216,8 @@ public:
         bool one_tail = this->direction_ != Direction::Both;
         bool upper_tail = this->direction_ == Direction::Positive;
 
-        auto res = AnomalyDetectionResult();
-        res.anomalies = detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
-        return res;
+        auto anomalies = detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
+        return AnomalyDetectionResult { anomalies };
     }
 };
 
