@@ -1,3 +1,7 @@
+## 0.2.1 (unreleased)
+
+- Added support for `double` series
+
 ## 0.2.0 (2025-02-23)
 
 - Added support for `std::span`
