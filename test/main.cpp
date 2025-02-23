@@ -42,7 +42,7 @@ template<typename T>
 void test_span() {
     auto series = generate_series<T>();
     std::vector<size_t> expected = {9, 15, 26};
-    auto res = anomaly_detection::params().max_anoms(0.2).fit(std::span<const float>(series), 7);
+    auto res = anomaly_detection::params().max_anoms(0.2).fit(std::span<const T>(series), 7);
     assert(res.anomalies == expected);
 }
 #endif
