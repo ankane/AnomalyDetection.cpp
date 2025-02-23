@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(anomaly_detection VERSION 0.1.4 LANGUAGES CXX)
+project(anomaly_detection VERSION 0.2.0 LANGUAGES CXX)
 
 include(FetchContent)
 include(GNUInstallDirs)

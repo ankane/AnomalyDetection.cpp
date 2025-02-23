@@ -1,5 +1,5 @@
 /*!
- * AnomalyDetection.cpp v0.1.4
+ * AnomalyDetection.cpp v0.2.0
  * https://github.com/ankane/AnomalyDetection.cpp
  * GPL-3.0-or-later License
  */
