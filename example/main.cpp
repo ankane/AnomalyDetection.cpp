@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "anomaly_detection.hpp"
 
