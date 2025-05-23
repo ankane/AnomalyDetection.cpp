@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <functional>
 #include <iostream>
 #include <iterator>
@@ -92,7 +93,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
     }
 
     auto num_anoms = 0;
-    auto max_outliers = (size_t) n * k;
+    auto max_outliers = static_cast<size_t>(n * k);
     std::vector<size_t> anomalies;
     anomalies.reserve(max_outliers);
 
@@ -106,7 +107,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
     std::sort(data2.begin(), data2.end());
 
     // Compute test statistic until r=max_outliers values have been removed from the sample
-    for (auto i = 1; i <= max_outliers; i++) {
+    for (size_t i = 1; i <= max_outliers; i++) {
         if (verbose) {
             std::cout << i << " / " << max_outliers << " completed" << std::endl;
         }
@@ -197,31 +198,31 @@ public:
     inline AnomalyDetectionParams alpha(float alpha) {
         this->alpha_ = alpha;
         return *this;
-    };
+    }
 
     /// Sets the maximum number of anomalies as percent of data.
     inline AnomalyDetectionParams max_anoms(float max_anoms) {
         this->max_anoms_ = max_anoms;
         return *this;
-    };
+    }
 
     /// Sets the direction.
     inline AnomalyDetectionParams direction(Direction direction) {
         this->direction_ = direction;
         return *this;
-    };
+    }
 
     /// Sets whether to show progress.
     inline AnomalyDetectionParams verbose(bool verbose) {
         this->verbose_ = verbose;
         return *this;
-    };
+    }
 
     /// Sets a callback for each iteration.
     inline AnomalyDetectionParams callback(std::function<void()> callback) {
         this->callback_ = callback;
         return *this;
-    };
+    }
 
     /// Detects anomalies in a time series from an array.
     template<typename T>
