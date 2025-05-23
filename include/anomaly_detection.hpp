@@ -32,7 +32,7 @@ enum class Direction {
     Both
 };
 
-namespace {
+namespace detail {
 
 template<typename T>
 T median_sorted(const std::vector<T>& sorted) {
@@ -176,11 +176,11 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
     return anomalies;
 }
 
-}
+} // namespace detail
 
 /// An anomaly detection result.
 class AnomalyDetectionResult {
-public:
+  public:
     /// Returns the anomalies.
     std::vector<size_t> anomalies;
 };
@@ -193,7 +193,7 @@ class AnomalyDetectionParams {
     bool verbose_ = false;
     std::function<void()> callback_ = nullptr;
 
-public:
+  public:
     /// Sets the level of statistical significance.
     inline AnomalyDetectionParams alpha(float alpha) {
         this->alpha_ = alpha;
@@ -230,7 +230,7 @@ public:
         bool one_tail = this->direction_ != Direction::Both;
         bool upper_tail = this->direction_ == Direction::Positive;
 
-        auto anomalies = detect_anoms(series, series_size, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
+        auto anomalies = detail::detect_anoms(series, series_size, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
         return AnomalyDetectionResult { anomalies };
     }
 
@@ -254,4 +254,4 @@ inline AnomalyDetectionParams params() {
     return AnomalyDetectionParams();
 }
 
-}
+} // namespace anomaly_detection
