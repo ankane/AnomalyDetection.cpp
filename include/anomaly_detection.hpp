@@ -7,10 +7,12 @@
 #pragma once
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <iostream>
 #include <iterator>
 #include <numeric>
+#include <stdexcept>
 #include <vector>
 
 #if __cplusplus >= 202002L
