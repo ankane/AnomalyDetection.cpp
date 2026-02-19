@@ -13,7 +13,7 @@ jobs:
       - run: cmake -S . -B build
       - run: cmake --build build
 
-      - if: ${{ startsWith(matrix.os, 'windows') }}
+      - if: ${{ runner.os == 'Windows' }}
         run: cp build/Debug/test.exe build && cp build/Debug/example.exe build
 
       - run: build/test
