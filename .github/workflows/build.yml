@@ -8,7 +8,7 @@ jobs:
         os: [ubuntu-24.04, macos-26, windows-2025]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - run: cmake -S . -B build
       - run: cmake --build build
@@ -19,13 +19,13 @@ jobs:
       - run: build/test
       - run: build/example
 
-      - if: ${{ startsWith(matrix.os, 'ubuntu') }}
+      - if: ${{ runner.os == 'Linux' }}
         run: |
           sudo apt-get update
           sudo apt-get install valgrind
           valgrind --leak-check=yes build/test
 
-      - if: ${{ startsWith(matrix.os, 'macos') }}
+      - if: ${{ runner.os == 'macOS' }}
         run: /opt/homebrew/opt/llvm@20/bin/scan-build --status-bugs cmake --build build
 
       - run: cmake --install build --prefix /tmp
