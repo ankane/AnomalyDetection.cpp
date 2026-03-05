@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install valgrind
-          valgrind --leak-check=yes build/test
+          valgrind --leak-check=yes --error-exitcode=1 build/test
 
       - if: ${{ runner.os == 'macOS' }}
         run: /opt/homebrew/opt/llvm@20/bin/scan-build --status-bugs cmake --build build
