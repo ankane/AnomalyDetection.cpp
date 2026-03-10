@@ -38,7 +38,7 @@ namespace detail {
 
 template<typename T>
 T median_sorted(const std::vector<T>& sorted) {
-    return (sorted[(sorted.size() - 1) / 2] + sorted[sorted.size() / 2]) / static_cast<T>(2.0);
+    return (sorted.at((sorted.size() - 1) / 2) + sorted.at(sorted.size() / 2)) / static_cast<T>(2.0);
 }
 
 template<typename T>
@@ -86,7 +86,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         auto seasonal = data_decomp.seasonal;
 
         for (size_t i = 0; i < n; i++) {
-            data2.push_back(data[i] - seasonal[i] - med);
+            data2.push_back(data[i] - seasonal.at(i) - med);
         }
     } else {
         for (size_t i = 0; i < n; i++) {
@@ -104,7 +104,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
     std::vector<size_t> indexes(n);
     std::iota(indexes.begin(), indexes.end(), 0);
     std::stable_sort(indexes.begin(), indexes.end(), [&data2](size_t a, size_t b) {
-        return data2[a] < data2[b];
+        return data2.at(a) < data2.at(b);
     });
     std::sort(data2.begin(), data2.end());
 
@@ -144,9 +144,9 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         size_t r_idx_i = std::distance(ares.begin(), iter);
 
         // Only need to take sigma of r for performance
-        T r = ares[r_idx_i] / data_sigma;
+        T r = ares.at(r_idx_i) / data_sigma;
 
-        anomalies.push_back(indexes[r_idx_i]);
+        anomalies.push_back(indexes.at(r_idx_i));
         data2.erase(data2.begin() + r_idx_i);
         indexes.erase(indexes.begin() + r_idx_i);
 
