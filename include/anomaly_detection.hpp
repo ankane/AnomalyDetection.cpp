@@ -38,7 +38,7 @@ namespace detail {
 
 template<typename T>
 T median_sorted(const std::vector<T>& sorted) {
-    return (sorted[(sorted.size() - 1) / 2] + sorted[sorted.size() / 2]) / 2.0;
+    return (sorted[(sorted.size() - 1) / 2] + sorted[sorted.size() / 2]) / static_cast<T>(2.0);
 }
 
 template<typename T>
@@ -56,7 +56,7 @@ T mad(const std::vector<T>& data, T med) {
         res.push_back(std::abs(v - med));
     }
     std::sort(res.begin(), res.end());
-    return 1.4826 * median_sorted(res);
+    return static_cast<T>(1.4826) * median_sorted(res);
 }
 
 template<typename T>
@@ -94,8 +94,8 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         }
     }
 
-    auto num_anoms = 0;
-    auto max_outliers = static_cast<size_t>(n * k);
+    size_t num_anoms = 0;
+    size_t max_outliers = static_cast<size_t>(static_cast<float>(n) * k);
     std::vector<size_t> anomalies;
     anomalies.reserve(max_outliers);
 
@@ -153,13 +153,13 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         // Compute critical value
         double p;
         if (one_tail) {
-            p = 1.0 - alpha / (n - i + 1);
+            p = 1.0 - alpha / static_cast<double>(n - i + 1);
         } else {
-            p = 1.0 - alpha / (2.0 * (n - i + 1));
+            p = 1.0 - alpha / (2.0 * static_cast<double>(n - i + 1));
         }
 
-        auto t = students_t_ppf(p, n - i - 1);
-        auto lam = t * (n - i) / std::sqrt(((n - i - 1) + t * t) * (n - i + 1));
+        double t = students_t_ppf(p, static_cast<double>(n - i - 1));
+        double lam = t * static_cast<double>(n - i) / std::sqrt((static_cast<double>(n - i - 1) + t * t) * static_cast<double>(n - i + 1));
 
         if (r > lam) {
             num_anoms = i;
@@ -189,8 +189,8 @@ class AnomalyDetectionResult {
 
 /// A set of anomaly detection parameters.
 class AnomalyDetectionParams {
-    float alpha_ = 0.05;
-    float max_anoms_ = 0.1;
+    float alpha_ = 0.05f;
+    float max_anoms_ = 0.1f;
     Direction direction_ = Direction::Both;
     bool verbose_ = false;
     std::function<void()> callback_ = nullptr;
