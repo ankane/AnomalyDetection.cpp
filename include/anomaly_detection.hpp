@@ -237,7 +237,7 @@ class AnomalyDetectionParams {
     /// Detects anomalies in a time series from a vector.
     template<typename T>
     inline AnomalyDetectionResult fit(const std::vector<T>& series, size_t period) const {
-        return fit(std::span{series}, period);
+        return fit(std::span<const T>{series}, period);
     }
 };
 
