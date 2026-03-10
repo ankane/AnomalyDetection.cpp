@@ -15,6 +15,7 @@
 #include <numeric>
 #include <span>
 #include <stdexcept>
+#include <utility>
 #include <vector>
 
 #include "dist.h"
