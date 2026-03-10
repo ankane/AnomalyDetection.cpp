@@ -233,6 +233,7 @@ class AnomalyDetectionParams {
         bool upper_tail = this->direction_ == Direction::Positive;
 
         auto anomalies = detail::detect_anoms(series, series_size, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
+        // TODO move
         return AnomalyDetectionResult { anomalies };
     }
 
