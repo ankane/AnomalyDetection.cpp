@@ -61,7 +61,7 @@ T mad(const std::vector<T>& data, T med) {
 
 template<typename T>
 std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
-    auto n = data_size;
+    size_t n = data_size;
 
     // Check to make sure we have at least two periods worth of data for anomaly context
     if (n < num_obs_per_period * 2) {
@@ -69,7 +69,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
     }
 
     // Handle NANs
-    auto nan = std::count_if(data, data + data_size, [](const auto& value) {
+    size_t nan = std::count_if(data, data + data_size, [](const auto& value) {
         return std::isnan(value);
     });
     if (nan > 0) {
@@ -78,7 +78,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
 
     std::vector<T> data2;
     data2.reserve(n);
-    auto med = median(data, data_size);
+    T med = median(data, data_size);
 
     if (num_obs_per_period > 1) {
         // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
@@ -115,7 +115,7 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         }
 
         // TODO Improve performance between loop iterations
-        auto ma = median_sorted(data2);
+        T ma = median_sorted(data2);
         std::vector<T> ares;
         ares.reserve(data2.size());
         if (one_tail) {
@@ -135,16 +135,16 @@ std::vector<size_t> detect_anoms(const T* data, size_t data_size, size_t num_obs
         }
 
         // Protect against constant time series
-        auto data_sigma = mad(data2, ma);
+        T data_sigma = mad(data2, ma);
         if (data_sigma == 0.0) {
             break;
         }
 
         auto iter = std::max_element(ares.begin(), ares.end());
-        auto r_idx_i = std::distance(ares.begin(), iter);
+        size_t r_idx_i = std::distance(ares.begin(), iter);
 
         // Only need to take sigma of r for performance
-        auto r = ares[r_idx_i] / data_sigma;
+        T r = ares[r_idx_i] / data_sigma;
 
         anomalies.push_back(indexes[r_idx_i]);
         data2.erase(data2.begin() + r_idx_i);
