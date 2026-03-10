@@ -14,7 +14,7 @@ add_library(anomaly_detection::anomaly_detection ALIAS anomaly_detection)
 
 target_link_libraries(anomaly_detection INTERFACE dist::dist stl::stl)
 
-target_compile_features(anomaly_detection INTERFACE cxx_std_17)
+target_compile_features(anomaly_detection INTERFACE cxx_std_20)
 
 target_include_directories(
     anomaly_detection

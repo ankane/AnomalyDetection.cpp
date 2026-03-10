@@ -1,11 +1,8 @@
 #include <cassert>
 #include <cstring>
 #include <limits>
-#include <vector>
-
-#if __cplusplus >= 202002L
 #include <span>
-#endif
+#include <vector>
 
 #include "anomaly_detection.hpp"
 
@@ -38,7 +35,6 @@ void test_works() {
     assert(res.anomalies == expected);
 }
 
-#if __cplusplus >= 202002L
 template<typename T>
 void test_span() {
     auto series = generate_series<T>();
@@ -46,7 +42,6 @@ void test_span() {
     auto res = anomaly_detection::params().max_anoms(0.2f).fit(std::span<const T>(series), 7);
     assert(res.anomalies == expected);
 }
-#endif
 
 template<typename T>
 void test_no_seasonality() {
@@ -126,9 +121,7 @@ void test_callback() {
 template<typename T>
 void test_type() {
     test_works<T>();
-#if __cplusplus >= 202002L
     test_span<T>();
-#endif
     test_no_seasonality<T>();
     test_direction_pos<T>();
     test_direction_neg<T>();
