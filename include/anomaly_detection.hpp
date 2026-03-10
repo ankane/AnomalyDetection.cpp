@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iterator>
 #include <numeric>
+#include <ranges>
 #include <span>
 #include <stdexcept>
 #include <vector>
@@ -41,7 +42,7 @@ T median_sorted(const std::vector<T>& sorted) {
 template<typename T>
 T median(std::span<const T> data) {
     std::vector<T> sorted(data.begin(), data.end());
-    std::sort(sorted.begin(), sorted.end());
+    std::ranges::sort(sorted);
     return median_sorted(sorted);
 }
 
@@ -52,7 +53,7 @@ T mad(const std::vector<T>& data, T med) {
     for (auto v : data) {
         res.push_back(std::abs(v - med));
     }
-    std::sort(res.begin(), res.end());
+    std::ranges::sort(res);
     return static_cast<T>(1.4826) * median_sorted(res);
 }
 
@@ -103,7 +104,7 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
     std::stable_sort(indexes.begin(), indexes.end(), [&data2](size_t a, size_t b) {
         return data2.at(a) < data2.at(b);
     });
-    std::sort(data2.begin(), data2.end());
+    std::ranges::sort(data2);
 
     // Compute test statistic until r=max_outliers values have been removed from the sample
     for (size_t i = 1; i <= max_outliers; i++) {
@@ -170,7 +171,7 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
     anomalies.resize(num_anoms);
 
     // Sort like R version
-    std::sort(anomalies.begin(), anomalies.end());
+    std::ranges::sort(anomalies);
 
     return anomalies;
 }
