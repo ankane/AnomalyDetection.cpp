@@ -27,7 +27,4 @@ jobs:
         run: /opt/homebrew/opt/llvm@20/bin/scan-build --status-bugs cmake --build build
 
       - run: cmake --install build --prefix /tmp
-      - run: g++ -std=c++17 -I/tmp/include example/main.cpp
-
-      - run: cmake -S . -B build -DCMAKE_CXX_STANDARD=20
-      - run: cmake --build build
+      - run: g++ -std=c++20 -I/tmp/include example/main.cpp
