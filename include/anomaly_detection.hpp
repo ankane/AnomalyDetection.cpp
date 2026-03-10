@@ -92,7 +92,7 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
     }
 
     size_t num_anoms = 0;
-    size_t max_outliers = static_cast<size_t>(static_cast<float>(n) * k);
+    auto max_outliers = static_cast<size_t>(static_cast<float>(n) * k);
     std::vector<size_t> anomalies;
     anomalies.reserve(max_outliers);
 
@@ -243,7 +243,7 @@ class AnomalyDetectionParams {
 
 /// Creates a new set of parameters.
 inline AnomalyDetectionParams params() {
-    return AnomalyDetectionParams();
+    return AnomalyDetectionParams{};
 }
 
 } // namespace anomaly_detection
