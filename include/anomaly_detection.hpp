@@ -58,7 +58,7 @@ T mad(const std::vector<T>& data, T med) {
 }
 
 template<typename T>
-std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, std::function<void()> callback) {
+std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_period, float k, float alpha, bool one_tail, bool upper_tail, bool verbose, const std::function<void()>& callback) {
     size_t n = data.size();
 
     // Check to make sure we have at least two periods worth of data for anomaly context
@@ -220,7 +220,7 @@ class AnomalyDetectionParams {
 
     /// Sets a callback for each iteration.
     inline AnomalyDetectionParams callback(std::function<void()> callback) {
-        this->callback_ = callback;
+        this->callback_ = std::move(callback);
         return *this;
     }
 
