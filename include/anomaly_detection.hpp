@@ -223,7 +223,7 @@ class AnomalyDetectionParams {
         return *this;
     }
 
-    /// Detects anomalies in a time series from an array.
+    /// Detects anomalies in a time series from a span.
     template<typename T>
     inline AnomalyDetectionResult fit(std::span<const T> series, size_t period) const {
         bool one_tail = this->direction_ != Direction::Both;
