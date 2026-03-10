@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstring>
+#include <limits>
 #include <vector>
 
 #if __cplusplus >= 202002L
@@ -88,7 +89,7 @@ void test_alpha() {
 template<typename T>
 void test_nan() {
     std::vector<T> series(30, 1.0);
-    series[15] = NAN;
+    series.at(15) = std::numeric_limits<T>::quiet_NaN();
     ASSERT_EXCEPTION(
         anomaly_detection::params().fit(series, 7),
         std::invalid_argument,
