@@ -7,12 +7,12 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <iostream>
 #include <iterator>
 #include <numeric>
-#include <ranges>
 #include <span>
 #include <stdexcept>
 #include <vector>

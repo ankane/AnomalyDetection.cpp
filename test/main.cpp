@@ -2,6 +2,7 @@
 #include <cstring>
 #include <limits>
 #include <span>
+#include <stdexcept>
 #include <vector>
 
 #include "anomaly_detection.hpp"
