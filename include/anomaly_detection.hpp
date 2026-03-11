@@ -64,7 +64,7 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
 
     // Check to make sure we have at least two periods worth of data for anomaly context
     if (n < num_obs_per_period * 2) {
-        throw std::invalid_argument("series must contain at least 2 periods");
+        throw std::invalid_argument{"series must contain at least 2 periods"};
     }
 
     // Handle NANs
@@ -72,7 +72,7 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
         return std::isnan(value);
     });
     if (nan > 0) {
-        throw std::invalid_argument("series contains NANs");
+        throw std::invalid_argument{"series contains NANs"};
     }
 
     std::vector<T> data2;
