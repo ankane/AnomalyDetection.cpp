@@ -68,7 +68,8 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
     }
 
     // Handle NANs
-    if (std::any_of(data.begin(), data.end(), [](const auto& value) { return std::isnan(value); })) {
+    bool nans = std::any_of(data.begin(), data.end(), [](const auto& value) { return std::isnan(value); });
+    if (nans) {
         throw std::invalid_argument{"series contains NANs"};
     }
 
