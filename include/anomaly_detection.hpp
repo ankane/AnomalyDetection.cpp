@@ -196,38 +196,38 @@ class AnomalyDetectionParams {
 
   public:
     /// Sets the level of statistical significance.
-    inline AnomalyDetectionParams alpha(float alpha) {
+    AnomalyDetectionParams alpha(float alpha) {
         this->alpha_ = alpha;
         return *this;
     }
 
     /// Sets the maximum number of anomalies as percent of data.
-    inline AnomalyDetectionParams max_anoms(float max_anoms) {
+    AnomalyDetectionParams max_anoms(float max_anoms) {
         this->max_anoms_ = max_anoms;
         return *this;
     }
 
     /// Sets the direction.
-    inline AnomalyDetectionParams direction(Direction direction) {
+    AnomalyDetectionParams direction(Direction direction) {
         this->direction_ = direction;
         return *this;
     }
 
     /// Sets whether to show progress.
-    inline AnomalyDetectionParams verbose(bool verbose) {
+    AnomalyDetectionParams verbose(bool verbose) {
         this->verbose_ = verbose;
         return *this;
     }
 
     /// Sets a callback for each iteration.
-    inline AnomalyDetectionParams callback(std::function<void()> callback) {
+    AnomalyDetectionParams callback(std::function<void()> callback) {
         this->callback_ = std::move(callback);
         return *this;
     }
 
     /// Detects anomalies in a time series from a span.
     template<typename T>
-    inline AnomalyDetectionResult fit(std::span<const T> series, size_t period) const {
+    AnomalyDetectionResult fit(std::span<const T> series, size_t period) const {
         bool one_tail = this->direction_ != Direction::Both;
         bool upper_tail = this->direction_ == Direction::Positive;
 
@@ -238,7 +238,7 @@ class AnomalyDetectionParams {
 
     /// Detects anomalies in a time series from a vector.
     template<typename T>
-    inline AnomalyDetectionResult fit(const std::vector<T>& series, size_t period) const {
+    AnomalyDetectionResult fit(const std::vector<T>& series, size_t period) const {
         return fit(std::span<const T>{series}, period);
     }
 };
