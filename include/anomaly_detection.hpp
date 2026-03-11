@@ -84,12 +84,15 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
         auto data_decomp = stl::params().robust(true).seasonal_length(data.size() * 10 + 1).fit(data, num_obs_per_period);
         auto seasonal = data_decomp.seasonal;
 
-        for (size_t i = 0; i < n; i++) {
-            data2.push_back(data[i] - seasonal.at(i) - med);
+        // TODO use std::views::zip for C++23
+        size_t i = 0;
+        for (auto v : data) {
+            data2.push_back(v - seasonal.at(i) - med);
+            i++;
         }
     } else {
-        for (size_t i = 0; i < n; i++) {
-            data2.push_back(data[i] - med);
+        for (auto v : data) {
+            data2.push_back(v - med);
         }
     }
 
