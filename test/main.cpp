@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include "anomaly_detection.hpp"
+#include <anomaly_detection.hpp>
 
 using anomaly_detection::Direction;
 
