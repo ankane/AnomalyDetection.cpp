@@ -28,7 +28,7 @@ void assert_exception(const std::function<void(void)>& code, std::optional<std::
 
 template<typename T>
 std::vector<T> generate_series() {
-    std::vector<T> series = {
+    std::vector<T> series{
         5.0, 9.0, 2.0, 9.0, 0.0, 6.0, 3.0, 8.0, 5.0, 18.0,
         7.0, 8.0, 8.0, 0.0, 2.0, -5.0, 0.0, 5.0, 6.0, 7.0,
         3.0, 6.0, 1.0, 4.0, 4.0, 4.0, 30.0, 7.0, 5.0, 8.0
@@ -39,7 +39,7 @@ std::vector<T> generate_series() {
 template<typename T>
 void test_works() {
     auto series = generate_series<T>();
-    std::vector<size_t> expected = {9, 15, 26};
+    std::vector<size_t> expected{9, 15, 26};
     auto res = anomaly_detection::params().max_anoms(0.2f).fit(series, 7);
     assert(res.anomalies == expected);
 }
@@ -47,15 +47,15 @@ void test_works() {
 template<typename T>
 void test_span() {
     auto series = generate_series<T>();
-    std::vector<size_t> expected = {9, 15, 26};
+    std::vector<size_t> expected{9, 15, 26};
     auto res = anomaly_detection::params().max_anoms(0.2f).fit(std::span<const T>(series), 7);
     assert(res.anomalies == expected);
 }
 
 template<typename T>
 void test_no_seasonality() {
-    std::vector<T> series = {1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
-    std::vector<size_t> expected = {1};
+    std::vector<T> series{1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
+    std::vector<size_t> expected{1};
     auto res = anomaly_detection::params().max_anoms(0.2f).fit(series, 1);
     assert(res.anomalies == expected);
 }
@@ -67,7 +67,7 @@ void test_direction_pos() {
         .max_anoms(0.2f)
         .direction(Direction::Positive)
         .fit(series, 7);
-    std::vector<size_t> expected = {9, 26};
+    std::vector<size_t> expected{9, 26};
     assert(res.anomalies == expected);
 }
 
@@ -78,7 +78,7 @@ void test_direction_neg() {
         .max_anoms(0.2f)
         .direction(Direction::Negative)
         .fit(series, 7);
-    std::vector<size_t> expected = {15};
+    std::vector<size_t> expected{15};
     assert(res.anomalies == expected);
 }
 
@@ -86,7 +86,7 @@ template<typename T>
 void test_alpha() {
     auto series = generate_series<T>();
     auto res = anomaly_detection::params().max_anoms(0.2f).alpha(0.5).fit(series, 7);
-    std::vector<size_t> expected = {1, 4, 9, 15, 26};
+    std::vector<size_t> expected{1, 4, 9, 15, 26};
     assert(res.anomalies == expected);
 }
 
