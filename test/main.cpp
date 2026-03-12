@@ -1,21 +1,29 @@
 #include <cassert>
 #include <cstring>
+#include <functional>
 #include <limits>
+#include <optional>
 #include <span>
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 
 #include <anomaly_detection.hpp>
 
 using anomaly_detection::Direction;
 
-#define ASSERT_EXCEPTION(code, type, message) { \
-    try {                                       \
-        code;                                   \
-        assert(false);                          \
-    } catch (const type &e) {                   \
-        assert(strcmp(e.what(), message) == 0); \
-    }                                           \
+template<typename T>
+void assert_exception(const std::function<void(void)>& code, std::optional<std::string_view> message = std::nullopt) {
+    std::optional<T> exception;
+    try {
+        code();
+    } catch (const T& e) {
+        exception = e;
+    }
+    assert(exception.has_value());
+    if (message) {
+        assert(std::string_view{exception.value().what()} == message.value());
+    }
 }
 
 template<typename T>
@@ -86,21 +94,17 @@ template<typename T>
 void test_nan() {
     std::vector<T> series(30, 1.0);
     series.at(15) = std::numeric_limits<T>::quiet_NaN();
-    ASSERT_EXCEPTION(
-        anomaly_detection::params().fit(series, 7),
-        std::invalid_argument,
-        "series contains NANs"
-    );
+    assert_exception<std::invalid_argument>([&]() {
+        anomaly_detection::params().fit(series, 7);
+    }, "series contains NANs");
 }
 
 template<typename T>
 void test_empty_data() {
     std::vector<T> series;
-    ASSERT_EXCEPTION(
-        anomaly_detection::params().fit(series, 7),
-        std::invalid_argument,
-        "series must contain at least 2 periods"
-    );
+    assert_exception<std::invalid_argument>([&]() {
+        anomaly_detection::params().fit(series, 7);
+    }, "series must contain at least 2 periods");
 }
 
 template<typename T>
