@@ -11,7 +11,7 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 Add the headers to your project (supports C++17 and greater).
 
 - [anomaly_detection.hpp](https://raw.githubusercontent.com/ankane/AnomalyDetection.cpp/v0.2.1/include/anomaly_detection.hpp)
-- [dist.h](https://raw.githubusercontent.com/ankane/dist.h/v0.3.1/include/dist.h)
+- [dist.h](https://raw.githubusercontent.com/ankane/dist-c/v0.3.1/include/dist.h)
 - [stl.hpp](https://raw.githubusercontent.com/ankane/stl-cpp/v0.2.0/include/stl.hpp)
 
 There is also support for CMake and FetchContent:
@@ -68,7 +68,7 @@ anomaly_detection::params()
 
 ## Credits
 
-This library was ported from the [AnomalyDetection](https://github.com/twitter/AnomalyDetection) R package and is available under the same license. It uses [stl-cpp](https://github.com/ankane/stl-cpp) for seasonal-trend decomposition and [dist.h](https://github.com/ankane/dist.h) for the quantile function.
+This library was ported from the [AnomalyDetection](https://github.com/twitter/AnomalyDetection) R package and is available under the same license. It uses [stl-cpp](https://github.com/ankane/stl-cpp) for seasonal-trend decomposition and [dist-c](https://github.com/ankane/dist-c) for the quantile function.
 
 ## References
 
