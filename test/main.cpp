@@ -44,14 +44,14 @@ template<typename T>
 void test_works() {
     std::vector<T> series = generate_series<T>();
     std::vector<size_t> expected{9, 15, 26};
-    AnomalyDetection res{series, 7, { .max_anoms = 0.2f }};
+    AnomalyDetection res{series, 7, {.max_anoms = 0.2f}};
     assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_span() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{std::span<const T>(series), 7, { .max_anoms = 0.2f }};
+    AnomalyDetection res{std::span<const T>(series), 7, {.max_anoms = 0.2f}};
     std::vector<size_t> expected{9, 15, 26};
     assert(res.anomalies() == expected);
 }
@@ -59,7 +59,7 @@ void test_span() {
 template<typename T>
 void test_no_seasonality() {
     std::vector<T> series{1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
-    AnomalyDetection res{series, 1, { .max_anoms = 0.2f }};
+    AnomalyDetection res{series, 1, {.max_anoms = 0.2f}};
     std::vector<size_t> expected{1};
     assert(res.anomalies() == expected);
 }
@@ -67,7 +67,7 @@ void test_no_seasonality() {
 template<typename T>
 void test_direction_pos() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, { .max_anoms = 0.2f, .direction = Direction::Positive }};
+    AnomalyDetection res{series, 7, {.max_anoms = 0.2f, .direction = Direction::Positive}};
     std::vector<size_t> expected{9, 26};
     assert(res.anomalies() == expected);
 }
@@ -75,7 +75,7 @@ void test_direction_pos() {
 template<typename T>
 void test_direction_neg() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, { .max_anoms = 0.2f, .direction = Direction::Negative }};
+    AnomalyDetection res{series, 7, {.max_anoms = 0.2f, .direction = Direction::Negative}};
     std::vector<size_t> expected{15};
     assert(res.anomalies() == expected);
 }
@@ -83,7 +83,7 @@ void test_direction_neg() {
 template<typename T>
 void test_alpha() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, { .alpha = 0.5,.max_anoms = 0.2f }};
+    AnomalyDetection res{series, 7, {.alpha = 0.5,.max_anoms = 0.2f}};
     std::vector<size_t> expected{1, 4, 9, 15, 26};
     assert(res.anomalies() == expected);
 }
@@ -108,7 +108,7 @@ void test_empty_data() {
 template<typename T>
 void test_max_anoms_zero() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, { .max_anoms = 0.0f }};
+    AnomalyDetection res{series, 7, {.max_anoms = 0.0f}};
     assert(res.anomalies().empty());
 }
 
@@ -117,7 +117,7 @@ void test_callback() {
     std::vector<T> series = generate_series<T>();
     size_t count = 0;
     auto callback = [&count]() { count++; };
-    AnomalyDetection res{series, 7, { .callback = callback }};
+    AnomalyDetection res{series, 7, {.callback = callback}};
     assert(count == 3);
 }
 
