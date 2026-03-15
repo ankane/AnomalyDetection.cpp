@@ -83,7 +83,7 @@ void test_direction_neg() {
 template<typename T>
 void test_alpha() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, {.alpha = 0.5,.max_anoms = 0.2f}};
+    AnomalyDetection res{series, 7, {.alpha = 0.5, .max_anoms = 0.2f}};
     std::vector<size_t> expected{1, 4, 9, 15, 26};
     assert(res.anomalies() == expected);
 }
