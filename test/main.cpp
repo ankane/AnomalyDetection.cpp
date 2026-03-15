@@ -14,7 +14,10 @@ using anomaly_detection::AnomalyDetectionResult;
 using anomaly_detection::Direction;
 
 template<typename T>
-void assert_exception(const std::function<void(void)>& code, std::optional<std::string_view> message = std::nullopt) {
+void assert_exception(
+    const std::function<void(void)>& code,
+    std::optional<std::string_view> message = std::nullopt
+) {
     std::optional<T> exception;
     try {
         code();
