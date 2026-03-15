@@ -162,12 +162,9 @@ std::vector<size_t> detect_anoms(
         indexes.erase(indexes.begin() + static_cast<ptrdiff_t>(r_idx_i));
 
         // Compute critical value
-        double p;
-        if (one_tail) {
-            p = 1.0 - alpha / static_cast<double>(n - i + 1);
-        } else {
-            p = 1.0 - alpha / (2.0 * static_cast<double>(n - i + 1));
-        }
+        double p = one_tail
+            ? (1.0 - alpha / static_cast<double>(n - i + 1))
+            : (1.0 - alpha / (2.0 * static_cast<double>(n - i + 1)));
 
         double t = students_t_ppf(p, static_cast<double>(n - i - 1));
         double lam = t * static_cast<double>(n - i) / std::sqrt((static_cast<double>(n - i - 1) + t * t) * static_cast<double>(n - i + 1));
