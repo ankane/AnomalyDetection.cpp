@@ -156,8 +156,10 @@ std::vector<size_t> detect_anoms(
         T r = ares.at(r_idx_i) / data_sigma;
 
         anomalies.push_back(indexes.at(r_idx_i));
-        data2.erase(data2.begin() + r_idx_i);
-        indexes.erase(indexes.begin() + r_idx_i);
+        // TODO check cast
+        data2.erase(data2.begin() + static_cast<ptrdiff_t>(r_idx_i));
+        // TODO check cast
+        indexes.erase(indexes.begin() + static_cast<ptrdiff_t>(r_idx_i));
 
         // Compute critical value
         double p;
