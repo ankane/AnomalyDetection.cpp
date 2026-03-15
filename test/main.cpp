@@ -10,14 +10,11 @@
 
 #include <anomaly_detection.hpp>
 
-using anomaly_detection::AnomalyDetectionResult;
+using anomaly_detection::AnomalyDetection;
 using anomaly_detection::Direction;
 
 template<typename T>
-void assert_exception(
-    const std::function<void(void)>& code,
-    std::optional<std::string_view> message = std::nullopt
-) {
+void assert_exception(const std::function<void(void)>& code, std::optional<std::string_view> message = std::nullopt) {
     std::optional<T> exception;
     try {
         code();
@@ -44,54 +41,48 @@ template<typename T>
 void test_works() {
     std::vector<T> series = generate_series<T>();
     std::vector<size_t> expected{9, 15, 26};
-    AnomalyDetectionResult res = anomaly_detection::params().max_anoms(0.2f).fit(series, 7);
-    assert(res.anomalies == expected);
+    AnomalyDetection res{series, 7, { .max_anoms = 0.2f }};
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_span() {
     std::vector<T> series = generate_series<T>();
+    AnomalyDetection res{std::span<const T>(series), 7, { .max_anoms = 0.2f }};
     std::vector<size_t> expected{9, 15, 26};
-    AnomalyDetectionResult res = anomaly_detection::params().max_anoms(0.2f).fit(std::span<const T>(series), 7);
-    assert(res.anomalies == expected);
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_no_seasonality() {
     std::vector<T> series{1.0, 6.0, 2.0, 3.0, 3.0, 0.0};
+    AnomalyDetection res{series, 1, { .max_anoms = 0.2f }};
     std::vector<size_t> expected{1};
-    AnomalyDetectionResult res = anomaly_detection::params().max_anoms(0.2f).fit(series, 1);
-    assert(res.anomalies == expected);
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_direction_pos() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetectionResult res = anomaly_detection::params()
-        .max_anoms(0.2f)
-        .direction(Direction::Positive)
-        .fit(series, 7);
+    AnomalyDetection res{series, 7, { .max_anoms = 0.2f, .direction = Direction::Positive }};
     std::vector<size_t> expected{9, 26};
-    assert(res.anomalies == expected);
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_direction_neg() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetectionResult res = anomaly_detection::params()
-        .max_anoms(0.2f)
-        .direction(Direction::Negative)
-        .fit(series, 7);
+    AnomalyDetection res{series, 7, { .max_anoms = 0.2f, .direction = Direction::Negative }};
     std::vector<size_t> expected{15};
-    assert(res.anomalies == expected);
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
 void test_alpha() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetectionResult res = anomaly_detection::params().max_anoms(0.2f).alpha(0.5).fit(series, 7);
+    AnomalyDetection res{series, 7, { .alpha = 0.5,.max_anoms = 0.2f }};
     std::vector<size_t> expected{1, 4, 9, 15, 26};
-    assert(res.anomalies == expected);
+    assert(res.anomalies() == expected);
 }
 
 template<typename T>
@@ -99,7 +90,7 @@ void test_nan() {
     std::vector<T> series(30, 1.0);
     series.at(15) = std::numeric_limits<T>::quiet_NaN();
     assert_exception<std::invalid_argument>([&]() {
-        anomaly_detection::params().fit(series, 7);
+        AnomalyDetection{series, 7};
     }, "series contains NANs");
 }
 
@@ -107,15 +98,15 @@ template<typename T>
 void test_empty_data() {
     std::vector<T> series;
     assert_exception<std::invalid_argument>([&]() {
-        anomaly_detection::params().fit(series, 7);
+        AnomalyDetection{series, 7};
     }, "series must contain at least 2 periods");
 }
 
 template<typename T>
 void test_max_anoms_zero() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetectionResult res = anomaly_detection::params().max_anoms(0.0f).fit(series, 7);
-    assert(res.anomalies.empty());
+    AnomalyDetection res{series, 7, { .max_anoms = 0.0f }};
+    assert(res.anomalies().empty());
 }
 
 template<typename T>
@@ -123,7 +114,7 @@ void test_callback() {
     std::vector<T> series = generate_series<T>();
     size_t count = 0;
     auto callback = [&count]() { count++; };
-    AnomalyDetectionResult res = anomaly_detection::params().callback(callback).fit(series, 7);
+    AnomalyDetection res{series, 7, { .callback = callback }};
     assert(count == 3);
 }
 

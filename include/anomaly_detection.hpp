@@ -180,73 +180,54 @@ std::vector<size_t> detect_anoms(std::span<const T> data, size_t num_obs_per_per
 
 } // namespace detail
 
-/// An anomaly detection result.
-class AnomalyDetectionResult {
-  public:
-    /// Returns the anomalies.
-    std::vector<size_t> anomalies;
+/// A set of anomaly detection parameters.
+struct AnomalyDetectionParams {
+    /// Sets the level of statistical significance.
+    float alpha = 0.05f;
+    /// Sets the maximum number of anomalies as percent of data.
+    float max_anoms = 0.1f;
+    /// Sets the direction.
+    Direction direction = Direction::Both;
+    /// Sets whether to show progress.
+    bool verbose = false;
+    /// Sets a callback for each iteration.
+    std::function<void()> callback = nullptr;
 };
 
-/// A set of anomaly detection parameters.
-class AnomalyDetectionParams {
-    float alpha_ = 0.05f;
-    float max_anoms_ = 0.1f;
-    Direction direction_ = Direction::Both;
-    bool verbose_ = false;
-    std::function<void()> callback_ = nullptr;
-
+/// An anomaly detection result.
+class AnomalyDetection {
   public:
-    /// Sets the level of statistical significance.
-    AnomalyDetectionParams alpha(float alpha) {
-        this->alpha_ = alpha;
-        return *this;
-    }
-
-    /// Sets the maximum number of anomalies as percent of data.
-    AnomalyDetectionParams max_anoms(float max_anoms) {
-        this->max_anoms_ = max_anoms;
-        return *this;
-    }
-
-    /// Sets the direction.
-    AnomalyDetectionParams direction(Direction direction) {
-        this->direction_ = direction;
-        return *this;
-    }
-
-    /// Sets whether to show progress.
-    AnomalyDetectionParams verbose(bool verbose) {
-        this->verbose_ = verbose;
-        return *this;
-    }
-
-    /// Sets a callback for each iteration.
-    AnomalyDetectionParams callback(std::function<void()> callback) {
-        this->callback_ = std::move(callback);
-        return *this;
-    }
-
     /// Detects anomalies in a time series from a span.
     template<typename T>
-    AnomalyDetectionResult fit(std::span<const T> series, size_t period) const {
-        bool one_tail = this->direction_ != Direction::Both;
-        bool upper_tail = this->direction_ == Direction::Positive;
+    AnomalyDetection(
+        std::span<const T> series,
+        size_t period,
+        const AnomalyDetectionParams& params = AnomalyDetectionParams()
+    ) {
+        bool one_tail = params.direction != Direction::Both;
+        bool upper_tail = params.direction == Direction::Positive;
 
-        auto anomalies = detail::detect_anoms(series, period, this->max_anoms_, this->alpha_, one_tail, upper_tail, this->verbose_, this->callback_);
-        // TODO move
-        return AnomalyDetectionResult { anomalies };
+        std::vector<size_t> anomalies = detail::detect_anoms(series, period, params.max_anoms, params.alpha, one_tail, upper_tail, params.verbose, params.callback);
+        anomalies_ = std::move(anomalies);
     }
 
     /// Detects anomalies in a time series from a vector.
     template<typename T>
-    AnomalyDetectionResult fit(const std::vector<T>& series, size_t period) const {
-        return fit(std::span<const T>{series}, period);
+    AnomalyDetection(
+        const std::vector<T>& series,
+        size_t period,
+        const AnomalyDetectionParams& params = AnomalyDetectionParams()
+    ) :
+        AnomalyDetection(std::span<const T>{series}, period, params) {
     }
-};
 
-/// Creates a new set of parameters.
-inline AnomalyDetectionParams params() {
-    return AnomalyDetectionParams{};
-}
+    /// Returns the anomalies.
+    const std::vector<size_t>& anomalies() const {
+        return anomalies_;
+    }
+
+  private:
+    std::vector<size_t> anomalies_;
+};
 
 } // namespace anomaly_detection
