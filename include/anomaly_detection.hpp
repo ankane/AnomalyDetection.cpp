@@ -91,11 +91,10 @@ std::vector<size_t> detect_anoms(
 
     if (num_obs_per_period > 1) {
         // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
-        auto data_decomp = stl::params()
-                               .robust(true)
-                               .seasonal_length(data.size() * 10 + 1)
-                               .fit(data, num_obs_per_period);
-        auto seasonal = data_decomp.seasonal;
+        stl::Stl data_decomp{
+            data, num_obs_per_period, {.seasonal_length = data.size() * 10 + 1, .robust = true}
+        };
+        const std::vector<T>& seasonal = data_decomp.seasonal();
 
         // TODO use std::views::zip for C++23
         size_t i = 0;
