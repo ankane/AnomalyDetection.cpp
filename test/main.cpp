@@ -64,7 +64,7 @@ void test_no_seasonality() {
 }
 
 template<typename T>
-void test_direction_pos() {
+void test_direction_positive() {
     std::vector<T> series = generate_series<T>();
     AnomalyDetection res{series, 7, {.max_anoms = 0.2f, .direction = Direction::Positive}};
     std::vector<size_t> expected{9, 26};
@@ -72,7 +72,7 @@ void test_direction_pos() {
 }
 
 template<typename T>
-void test_direction_neg() {
+void test_direction_negative() {
     std::vector<T> series = generate_series<T>();
     AnomalyDetection res{series, 7, {.max_anoms = 0.2f, .direction = Direction::Negative}};
     std::vector<size_t> expected{15};
@@ -161,8 +161,8 @@ void test_type() {
     test_vector<T>();
     test_span<T>();
     test_no_seasonality<T>();
-    test_direction_pos<T>();
-    test_direction_neg<T>();
+    test_direction_positive<T>();
+    test_direction_negative<T>();
     test_alpha<T>();
     test_alpha_negative<T>();
     test_nan<T>();
