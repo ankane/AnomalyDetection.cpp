@@ -93,6 +93,10 @@ std::vector<size_t> detect_anoms(
         throw std::invalid_argument{"max_anoms must be less than 50% of the data points"};
     }
 
+    if (alpha < 0) {
+        throw std::invalid_argument{"alpha must be non-negative"};
+    }
+
     std::vector<T> data2;
     data2.reserve(n);
     T med = median(data);

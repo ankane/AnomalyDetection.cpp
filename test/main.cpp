@@ -88,6 +88,16 @@ void test_alpha() {
 }
 
 template<typename T>
+void test_alpha_negative() {
+    std::vector<T> series = generate_series<T>();
+    AnomalyDetection res{series, 7, {.alpha = 0.5, .max_anoms = 0.2f}};
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7, {.alpha = -0.1f}}; },
+        "alpha must be non-negative"
+    );
+}
+
+template<typename T>
 void test_nan() {
     std::vector<T> series(30, 1.0);
     series.at(15) = std::numeric_limits<T>::quiet_NaN();
@@ -112,7 +122,7 @@ void test_max_anoms_zero() {
 }
 
 template<typename T>
-void test_max_anoms_under_zero() {
+void test_max_anoms_negative() {
     std::vector<T> series = generate_series<T>();
     assert_exception<std::invalid_argument>(
         [&]() { AnomalyDetection{series, 7, {.max_anoms = -0.1f}}; },
@@ -154,10 +164,11 @@ void test_type() {
     test_direction_pos<T>();
     test_direction_neg<T>();
     test_alpha<T>();
+    test_alpha_negative<T>();
     test_nan<T>();
     test_empty_data<T>();
     test_max_anoms_zero<T>();
-    test_max_anoms_under_zero<T>();
+    test_max_anoms_negative<T>();
     test_max_anoms_max<T>();
     test_max_anoms_over_max<T>();
     test_callback<T>();
