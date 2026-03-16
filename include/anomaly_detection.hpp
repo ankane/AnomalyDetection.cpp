@@ -133,7 +133,7 @@ std::vector<size_t> detect_anoms(
     // Use stable sort for indexes for deterministic results
     std::vector<size_t> indexes(n);
     std::iota(indexes.begin(), indexes.end(), 0);
-    std::stable_sort(indexes.begin(), indexes.end(), [&data2](size_t a, size_t b) {
+    std::ranges::stable_sort(indexes, [&data2](size_t a, size_t b) {
         return data2.at(a) < data2.at(b);
     });
     std::ranges::sort(data2);
