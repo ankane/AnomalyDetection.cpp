@@ -90,10 +90,18 @@ void test_alpha() {
 template<typename T>
 void test_alpha_negative() {
     std::vector<T> series = generate_series<T>();
-    AnomalyDetection res{series, 7, {.alpha = 0.5, .max_anoms = 0.2f}};
     assert_exception<std::invalid_argument>(
         [&]() { AnomalyDetection{series, 7, {.alpha = -0.1f}}; },
         "alpha must be non-negative"
+    );
+}
+
+template<typename T>
+void test_alpha_over_max() {
+    std::vector<T> series = generate_series<T>();
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7, {.alpha = 0.51f}}; },
+        "alpha must be between 0 and 0.5"
     );
 }
 
@@ -165,6 +173,7 @@ void test_type() {
     test_direction_negative<T>();
     test_alpha<T>();
     test_alpha_negative<T>();
+    test_alpha_over_max<T>();
     test_nan<T>();
     test_empty_data<T>();
     test_max_anoms_zero<T>();

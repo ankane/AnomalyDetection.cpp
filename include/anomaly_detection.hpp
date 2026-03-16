@@ -97,6 +97,10 @@ std::vector<size_t> detect_anoms(
         throw std::invalid_argument{"alpha must be non-negative"};
     }
 
+    if (alpha > 0.5) {
+        throw std::invalid_argument{"alpha must be between 0 and 0.5"};
+    }
+
     std::vector<T> data2;
     data2.reserve(n);
     T med = median(data);
