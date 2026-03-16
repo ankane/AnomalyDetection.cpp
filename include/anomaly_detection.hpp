@@ -98,7 +98,7 @@ std::vector<size_t> detect_anoms(
     }
 
     if (alpha > 0.5) {
-        throw std::invalid_argument{"alpha must be between 0 and 0.5"};
+        throw std::invalid_argument{"alpha must not be greater than 0.5"};
     }
 
     std::vector<T> data2;

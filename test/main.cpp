@@ -101,7 +101,7 @@ void test_alpha_over_max() {
     std::vector<T> series = generate_series<T>();
     assert_exception<std::invalid_argument>(
         [&]() { AnomalyDetection{series, 7, {.alpha = 0.51f}}; },
-        "alpha must be between 0 and 0.5"
+        "alpha must not be greater than 0.5"
     );
 }
 
