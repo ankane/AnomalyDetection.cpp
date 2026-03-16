@@ -112,6 +112,24 @@ void test_max_anoms_zero() {
 }
 
 template<typename T>
+void test_max_anoms_under_zero() {
+    std::vector<T> series = generate_series<T>();
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7, {.max_anoms = -0.1f}}; },
+        "max_anoms must be between 0 and 1"
+    );
+}
+
+template<typename T>
+void test_max_anoms_over_one() {
+    std::vector<T> series = generate_series<T>();
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7, {.max_anoms = 1.1f}}; },
+        "max_anoms must be between 0 and 1"
+    );
+}
+
+template<typename T>
 void test_callback() {
     std::vector<T> series = generate_series<T>();
     size_t count = 0;
@@ -131,6 +149,8 @@ void test_type() {
     test_nan<T>();
     test_empty_data<T>();
     test_max_anoms_zero<T>();
+    test_max_anoms_under_zero<T>();
+    test_max_anoms_over_one<T>();
     test_callback<T>();
 }
 

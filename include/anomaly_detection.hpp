@@ -85,6 +85,10 @@ std::vector<size_t> detect_anoms(
         throw std::invalid_argument{"series contains NANs"};
     }
 
+    if (k < 0 || k > 1) {
+        throw std::invalid_argument{"max_anoms must be between 0 and 1"};
+    }
+
     std::vector<T> data2;
     data2.reserve(n);
     T med = median(data);
