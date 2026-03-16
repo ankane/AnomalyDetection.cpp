@@ -85,8 +85,12 @@ std::vector<size_t> detect_anoms(
         throw std::invalid_argument{"series contains NANs"};
     }
 
-    if (k < 0 || k > 1) {
-        throw std::invalid_argument{"max_anoms must be between 0 and 1"};
+    if (k < 0) {
+        throw std::invalid_argument{"max_anoms must be non-negative"};
+    }
+
+    if (k >= 0.5) {
+        throw std::invalid_argument{"max_anoms must be less than 50% of the data points"};
     }
 
     std::vector<T> data2;
