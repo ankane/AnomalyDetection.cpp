@@ -37,7 +37,8 @@ namespace detail {
 
 template<typename T>
 T median_sorted(const std::vector<T>& sorted) {
-    return (sorted.at((sorted.size() - 1) / 2) + sorted.at(sorted.size() / 2)) / static_cast<T>(2.0);
+    return (sorted.at((sorted.size() - 1) / 2) + sorted.at(sorted.size() / 2))
+        / static_cast<T>(2.0);
 }
 
 template<typename T>
@@ -77,7 +78,9 @@ std::vector<size_t> detect_anoms(
     }
 
     // Handle NANs
-    bool nans = std::any_of(data.begin(), data.end(), [](const auto& value) { return std::isnan(value); });
+    bool nans = std::any_of(data.begin(), data.end(), [](const auto& value) {
+        return std::isnan(value);
+    });
     if (nans) {
         throw std::invalid_argument{"series contains NANs"};
     }
@@ -88,7 +91,10 @@ std::vector<size_t> detect_anoms(
 
     if (num_obs_per_period > 1) {
         // Decompose data. This returns a univarite remainder which will be used for anomaly detection. Optionally, we might NOT decompose.
-        auto data_decomp = stl::params().robust(true).seasonal_length(data.size() * 10 + 1).fit(data, num_obs_per_period);
+        auto data_decomp = stl::params()
+                               .robust(true)
+                               .seasonal_length(data.size() * 10 + 1)
+                               .fit(data, num_obs_per_period);
         auto seasonal = data_decomp.seasonal;
 
         // TODO use std::views::zip for C++23
@@ -167,7 +173,8 @@ std::vector<size_t> detect_anoms(
             : (1.0 - alpha / (2.0 * static_cast<double>(n - i + 1)));
 
         double t = students_t_ppf(p, static_cast<double>(n - i - 1));
-        double lam = t * static_cast<double>(n - i) / std::sqrt((static_cast<double>(n - i - 1) + t * t) * static_cast<double>(n - i + 1));
+        double lam = t * static_cast<double>(n - i)
+            / std::sqrt((static_cast<double>(n - i - 1) + t * t) * static_cast<double>(n - i + 1));
 
         if (r > lam) {
             num_anoms = i;

@@ -33,9 +33,8 @@ void assert_exception(
 template<typename T>
 std::vector<T> generate_series() {
     std::vector<T> series{
-        5.0, 9.0, 2.0, 9.0, 0.0, 6.0, 3.0, 8.0, 5.0, 18.0,
-        7.0, 8.0, 8.0, 0.0, 2.0, -5.0, 0.0, 5.0, 6.0, 7.0,
-        3.0, 6.0, 1.0, 4.0, 4.0, 4.0, 30.0, 7.0, 5.0, 8.0
+        5.0,  9.0, 2.0, 9.0, 0.0, 6.0, 3.0, 8.0, 5.0, 18.0, 7.0, 8.0,  8.0, 0.0, 2.0,
+        -5.0, 0.0, 5.0, 6.0, 7.0, 3.0, 6.0, 1.0, 4.0, 4.0,  4.0, 30.0, 7.0, 5.0, 8.0
     };
     return series;
 }
@@ -92,17 +91,17 @@ template<typename T>
 void test_nan() {
     std::vector<T> series(30, 1.0);
     series.at(15) = std::numeric_limits<T>::quiet_NaN();
-    assert_exception<std::invalid_argument>([&]() {
-        AnomalyDetection{series, 7};
-    }, "series contains NANs");
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7}; }, "series contains NANs"
+    );
 }
 
 template<typename T>
 void test_empty_data() {
     std::vector<T> series;
-    assert_exception<std::invalid_argument>([&]() {
-        AnomalyDetection{series, 7};
-    }, "series must contain at least 2 periods");
+    assert_exception<std::invalid_argument>(
+        [&]() { AnomalyDetection{series, 7}; }, "series must contain at least 2 periods"
+    );
 }
 
 template<typename T>
