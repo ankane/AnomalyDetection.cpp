@@ -155,16 +155,14 @@ std::vector<size_t> detect_anoms(
         }
 
         auto iter = std::max_element(ares.begin(), ares.end());
-        size_t r_idx_i = std::distance(ares.begin(), iter);
+        ptrdiff_t r_idx_i = std::distance(ares.begin(), iter);
 
         // Only need to take sigma of r for performance
-        T r = ares.at(r_idx_i) / data_sigma;
+        T r = ares.at(static_cast<size_t>(r_idx_i)) / data_sigma;
 
-        anomalies.push_back(indexes.at(r_idx_i));
-        // TODO check cast
-        data2.erase(data2.begin() + static_cast<ptrdiff_t>(r_idx_i));
-        // TODO check cast
-        indexes.erase(indexes.begin() + static_cast<ptrdiff_t>(r_idx_i));
+        anomalies.push_back(indexes.at(static_cast<size_t>(r_idx_i)));
+        data2.erase(data2.begin() + r_idx_i);
+        indexes.erase(indexes.begin() + r_idx_i);
 
         // Compute critical value
         double p = one_tail
