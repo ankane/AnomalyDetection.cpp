@@ -154,7 +154,7 @@ std::vector<size_t> detect_anoms(
             break;
         }
 
-        auto iter = std::max_element(ares.begin(), ares.end());
+        auto iter = std::ranges::max_element(ares);
         ptrdiff_t r_idx_i = std::distance(ares.begin(), iter);
 
         // Only need to take sigma of r for performance
