@@ -35,7 +35,7 @@ if(PROJECT_IS_TOP_LEVEL)
         add_executable(test test/main.cpp)
         target_link_libraries(test PRIVATE anomaly_detection::anomaly_detection)
         if(NOT MSVC)
-            target_compile_options(test PRIVATE -Wall -Wextra -Wpedantic -Werror)
+            target_compile_options(test PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Werror)
         endif()
     endif()
 
