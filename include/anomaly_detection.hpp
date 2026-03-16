@@ -215,7 +215,16 @@ class AnomalyDetection {
         bool one_tail = params.direction != Direction::Both;
         bool upper_tail = params.direction == Direction::Positive;
 
-        std::vector<size_t> anomalies = detail::detect_anoms(series, period, params.max_anoms, params.alpha, one_tail, upper_tail, params.verbose, params.callback);
+        std::vector<size_t> anomalies = detail::detect_anoms(
+            series,
+            period,
+            params.max_anoms,
+            params.alpha,
+            one_tail,
+            upper_tail,
+            params.verbose,
+            params.callback
+        );
         anomalies_ = std::move(anomalies);
     }
 
@@ -226,8 +235,7 @@ class AnomalyDetection {
         size_t period,
         const AnomalyDetectionParams& params = AnomalyDetectionParams()
     ) :
-        AnomalyDetection(std::span<const T>{series}, period, params) {
-    }
+        AnomalyDetection(std::span<const T>{series}, period, params) {}
 
     /// Returns the anomalies.
     const std::vector<size_t>& anomalies() const {
