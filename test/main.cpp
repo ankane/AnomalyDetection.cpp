@@ -40,7 +40,7 @@ std::vector<T> generate_series() {
 }
 
 template<typename T>
-void test_works() {
+void test_vector() {
     std::vector<T> series = generate_series<T>();
     std::vector<size_t> expected{9, 15, 26};
     AnomalyDetection res{series, 7, {.max_anoms = 0.2f}};
@@ -122,7 +122,7 @@ void test_callback() {
 
 template<typename T>
 void test_type() {
-    test_works<T>();
+    test_vector<T>();
     test_span<T>();
     test_no_seasonality<T>();
     test_direction_pos<T>();
