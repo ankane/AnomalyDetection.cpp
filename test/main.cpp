@@ -42,8 +42,8 @@ std::vector<T> generate_series() {
 template<typename T>
 void test_vector() {
     std::vector<T> series = generate_series<T>();
-    std::vector<size_t> expected{9, 15, 26};
     AnomalyDetection res{series, 7, {.max_anoms = 0.2f}};
+    std::vector<size_t> expected{9, 15, 26};
     assert(res.anomalies() == expected);
 }
 
@@ -141,8 +141,8 @@ void test_max_anoms_negative() {
 template<typename T>
 void test_max_anoms_max() {
     std::vector<T> series = generate_series<T>();
-    std::vector<size_t> expected{9, 15, 26};
     AnomalyDetection res{series, 7, {.max_anoms = 0.49f}};
+    std::vector<size_t> expected{9, 15, 26};
     assert(res.anomalies() == expected);
 }
 
