@@ -73,7 +73,7 @@ std::vector<size_t> detect_anoms(
     size_t n = data.size();
 
     // Check to make sure we have at least two periods worth of data for anomaly context
-    if (n < num_obs_per_period * 2) {
+    if (n / 2 < num_obs_per_period) {
         throw std::invalid_argument{"series must contain at least 2 periods"};
     }
 
