@@ -1,5 +1,8 @@
 ## 0.3.0 (unreleased)
 
+- Replaced `fit` function with `AnomalyDetection` constructor
+- Changed functions to data members for `AnomalyDetectionParams`
+- Changed `anomalies` to function
 - Dropped support for C++17
 
 ## 0.2.1 (2025-02-24)
