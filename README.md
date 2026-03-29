@@ -43,13 +43,13 @@ std::vector<float> series{
 };
 size_t period = 7; // number of observations in a single period
 
-anomaly_detection::AnomalyDetection res{series, period};
+anomaly_detection::AnomalyDetection ad{series, period};
 ```
 
 Get anomalies
 
 ```cpp
-const std::vector<size_t>& anomalies = res.anomalies();
+const std::vector<size_t>& anomalies = ad.anomalies();
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ anomaly_detection::AnomalyDetectionParams params{
     .verbose = false                  // show progress
 };
 
-anomaly_detection::AnomalyDetection res{series, period, params};
+anomaly_detection::AnomalyDetection ad{series, period, params};
 ```
 
 ## Credits

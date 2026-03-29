@@ -4,8 +4,6 @@
 
 #include "anomaly_detection.hpp"
 
-using anomaly_detection::AnomalyDetection;
-
 int main() {
     std::vector<float> series{
         5.0,  9.0, 2.0, 9.0, 0.0, 6.0, 3.0, 8.0, 5.0, 18.0, 7.0, 8.0,  8.0, 0.0, 2.0,
@@ -13,8 +11,8 @@ int main() {
     };
     size_t period = 7; // number of observations in a single period
 
-    AnomalyDetection res{series, period};
-    for (auto anomaly : res.anomalies()) {
+    anomaly_detection::AnomalyDetection ad{series, period};
+    for (auto anomaly : ad.anomalies()) {
         std::cout << anomaly << std::endl;
     }
 
