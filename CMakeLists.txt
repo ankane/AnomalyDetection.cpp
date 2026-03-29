@@ -6,7 +6,7 @@ include(FetchContent)
 include(GNUInstallDirs)
 
 FetchContent_Declare(dist GIT_REPOSITORY https://github.com/ankane/dist.h.git GIT_TAG v0.3.1)
-FetchContent_Declare(stl GIT_REPOSITORY https://github.com/ankane/stl-cpp.git)
+FetchContent_Declare(stl GIT_REPOSITORY https://github.com/ankane/stl-cpp.git GIT_TAG v0.3.0)
 FetchContent_MakeAvailable(dist stl)
 
 add_library(anomaly_detection INTERFACE)
