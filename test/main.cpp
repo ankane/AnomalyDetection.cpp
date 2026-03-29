@@ -91,8 +91,7 @@ template<typename T>
 void test_alpha_negative() {
     std::vector<T> series = generate_series<T>();
     assert_exception<std::invalid_argument>(
-        [&]() { AnomalyDetection{series, 7, {.alpha = -0.1f}}; },
-        "alpha must be non-negative"
+        [&]() { AnomalyDetection{series, 7, {.alpha = -0.1f}}; }, "alpha must be non-negative"
     );
 }
 

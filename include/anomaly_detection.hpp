@@ -78,9 +78,7 @@ std::vector<size_t> detect_anoms(
     }
 
     // Handle NANs
-    bool nans = std::ranges::any_of(data, [](const auto& value) {
-        return std::isnan(value);
-    });
+    bool nans = std::ranges::any_of(data, [](const auto& value) { return std::isnan(value); });
     if (nans) {
         throw std::invalid_argument{"series contains NANs"};
     }
