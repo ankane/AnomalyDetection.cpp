@@ -36,8 +36,6 @@ Include the header
 Detect anomalies in a time series
 
 ```cpp
-using anomaly_detection::AnomalyDetection;
-
 std::vector<float> series{
     5.0, 9.0, 2.0, 9.0, 0.0, 6.0, 3.0, 8.0, 5.0, 18.0,
     7.0, 8.0, 8.0, 0.0, 2.0, 15.0, 0.0, 5.0, 6.0, 7.0,
@@ -45,7 +43,7 @@ std::vector<float> series{
 };
 size_t period = 7; // number of observations in a single period
 
-AnomalyDetection res{series, period};
+anomaly_detection::AnomalyDetection res{series, period};
 ```
 
 Get anomalies
@@ -66,7 +64,7 @@ anomaly_detection::AnomalyDetectionParams params{
     .verbose = false                  // show progress
 };
 
-AnomalyDetection res{series, period, params};
+anomaly_detection::AnomalyDetection res{series, period, params};
 ```
 
 ## Credits
