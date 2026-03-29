@@ -8,7 +8,7 @@ Learn [how it works](https://blog.twitter.com/engineering/en_us/a/2015/introduci
 
 ## Installation
 
-Add the headers to your project (supports C++17 and greater).
+Add the headers to your project (supports C++20 and greater).
 
 - [anomaly_detection.hpp](https://raw.githubusercontent.com/ankane/AnomalyDetection.cpp/v0.3.0/include/anomaly_detection.hpp)
 - [dist.h](https://raw.githubusercontent.com/ankane/dist-c/v0.3.1/include/dist.h)
