@@ -17,6 +17,11 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <version>
+
+#ifdef __cpp_lib_ranges_zip
+#include <ranges>
+#endif
 
 #include "dist.h"
 #include "stl.hpp"
@@ -110,12 +115,17 @@ std::vector<size_t> detect_anoms(
         };
         const std::vector<T>& seasonal = data_decomp.seasonal();
 
-        // TODO use std::views::zip for C++23
+#ifdef __cpp_lib_ranges_zip
+        for (const auto& [v, s] : std::views::zip(data, seasonal)) {
+            data2.push_back(v - s - med);
+        }
+#else
         size_t i = 0;
         for (auto v : data) {
             data2.push_back(v - seasonal.at(i) - med);
             i++;
         }
+#endif
     } else {
         for (auto v : data) {
             data2.push_back(v - med);
